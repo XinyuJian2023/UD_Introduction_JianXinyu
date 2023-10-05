@@ -121,4 +121,15 @@ class WallE:
         pass #Remove this and fill with your own code
 
     def walk_around_obstacle(self):
+        if not self.check_wall():
+            self.move()
+        else:
+            self.turn_right()
+            self.move()
+            if self.check_wall():
+                self.turn_left()
+                self.move()
+                self.turn_left()
+                self.move()
+                self.turn_right()
         pass #Remove this and fill with your own code
