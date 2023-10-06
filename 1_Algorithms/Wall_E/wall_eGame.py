@@ -1,4 +1,6 @@
 # https://www.pygame.org/news
+import sys
+
 import pygame
 import random
 import os

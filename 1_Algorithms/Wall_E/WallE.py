@@ -1,4 +1,5 @@
 import math, pygame
+import sys
 from math import pi
 import random
 
@@ -62,7 +63,7 @@ class WallE:
             self.position[1] += self.direction[1]
             if -1 < self.position[0] < len(self.board) and -1 < self.position[1] < len(self.board[0]):
                 if self.board[self.position[0]][self.position[1]]==1:
-                    self.broken = true
+                    self.broken = True
             else:
                 self.broken = True
             self.action = True
@@ -115,21 +116,73 @@ class WallE:
 
     def find_the_box(self):
 
+        if self.check_on_box():
+            self.pick_up_box()
+            # pygame.quit()
+            # sys.exit()
+        self.move()
+        if self.check_wall():
+            if self.direction == [1,0]:
+                self.turn_right()
+                if self.check_on_box():
+                    self.pick_up_box()
+                    pygame.quit()
+                    sys.exit()
+                self.action = False
+                self.move()
+
+                self.turn_right()
+
+            elif self.direction == [-1,0]:
+                self.turn_left()
+                if self.check_on_box():
+                    self.pick_up_box()
+                    pygame.quit()
+                    sys.exit()
+                self.action = False
+                self.move()
+
+
+                self.turn_left()
+
         pass #Remove this and fill with your own code
 
     def swap_all_boxes(self):
+        try:
+            if self.check_on_box():
+                self.pick_up_box()
+            self.move()
+            if self.check_wall():
+                if self.direction == [1,0]:
+                    self.turn_right()
+                    if self.check_on_box():
+                        self.pick_up_box()
+                    self.action = False
+                    self.move()
+                    self.turn_right()
+
+                elif self.direction == [-1,0]:
+                    self.turn_left()
+                    if self.check_on_box():
+                        self.pick_up_box()
+                    self.action = False
+                    self.move()
+
+                    self.turn_left()
+        except IndexError:
+            pygame.quit()
+            sys.exit()
         pass #Remove this and fill with your own code
 
     def walk_around_obstacle(self):
-        if not self.check_wall():
-            self.move()
-        else:
-            self.turn_right()
+        try:
+            global flag
             self.move()
             if self.check_wall():
-                self.turn_left()
-                self.move()
-                self.turn_left()
-                self.move()
                 self.turn_right()
+                flag = True
+            elif flag and self.board[self.position[0] +1][self.position[1]] == self.board[self.position[0] - 1][self.position[1]] and self.board[self.position[0]][self.position[1] + 1] == self.board[self.position[0]][ self.position[1] -1 ]:
+                self.turn_left()
+        except:
+            pass
         pass #Remove this and fill with your own code
